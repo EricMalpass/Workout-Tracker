@@ -1,7 +1,7 @@
 const db = require("../models");
 
 module.exports = function(app) {
-    app.get("/api/workout", (req, res) => {
+    app.get("/api/Workout", (req, res) => {
         db.Workout.find({}).sort({ _id: -1 }).limit(10)
             .populate("exercise")
             .then(dbWorkout => {
@@ -12,7 +12,7 @@ module.exports = function(app) {
             });
     });
 
-    app.put("/api/workout/:id", (req, res) => {
+    app.put("/api/Workout/:id", (req, res) => {
         if (req.body.type === "cardio") {
             db.cardio.create(req.body)
                 .then(({ _id }) => db.Workout.findOneAndUpdate({}, { $push: { exercise: _id } }, { new: true }))
@@ -36,8 +36,8 @@ module.exports = function(app) {
         };
     });
 
-    app.post("/api/workout", (req, res) => {
-        db.workout.create(req.body)
+    app.post("/api/Workout", (req, res) => {
+        db.Workout.create(req.body)
             .then(dbWorkout => {
                 res.json(dbWorkout);
             })
@@ -45,7 +45,7 @@ module.exports = function(app) {
                 res.json(err);
             });
     });
-
+//fields?
     app.get("/api/workout/range", (req, res) => {
         db.Workout.find({})
             .populate("exercise")

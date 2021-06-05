@@ -24,7 +24,7 @@ function generatePalette() {
 function populateChart(data) {
   let durations = data.map(({ totalDuration }) => totalDuration);
   let pounds = calculateTotalWeight(data);
-  let workouts = workoutNames(data);
+  let Workout = workoutNames(data);
   const colors = generatePalette();
 
   let line = document.querySelector('#canvas').getContext('2d');
@@ -135,7 +135,7 @@ function populateChart(data) {
   let pieChart = new Chart(pie, {
     type: 'pie',
     data: {
-      labels: workouts,
+      labels: Workout,
       datasets: [
         {
           label: 'Exercises Performed',
@@ -155,7 +155,7 @@ function populateChart(data) {
   let donutChart = new Chart(pie2, {
     type: 'doughnut',
     data: {
-      labels: workouts,
+      labels: Workout,
       datasets: [
         {
           label: 'Exercises Performed',
@@ -192,17 +192,17 @@ function calculateTotalWeight(data) {
 }
 
 function workoutNames(data) {
-  let workouts = [];
+  let workout = [];
 
   data.forEach((workout) => {
     workout.exercises.forEach((exercise) => {
-      workouts.push(exercise.name);
+      workout.push(exercise.name);
     });
   });
 
   // return de-duplicated array with JavaScript `Set` object
-  return [...new Set(workouts)];
+  return [...new Set(workout)];
 }
 
 // get all workout data from back-end
-API.getWorkoutsInRange().then(populateChart);
+API.getWorkoutInRange().then(populateChart);

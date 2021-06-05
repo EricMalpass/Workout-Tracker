@@ -19,13 +19,13 @@ const workoutSchema = new Schema({
 workoutSchema.set('toObject', { virtuals: true });
 
 workoutSchema.virtual('totalDuration').get(function() {
-  workout.find({}).populate('exercise')
+  Workout.find({}).populate('exercise')
   let totalDuration = this.exercise.reduce(function(prev, cur) {
     return prev + cur.duration;
   }, 0);
   return totalDuration;
 });
 
-const workout = mongoose.model("Workout", workoutSchema);
+const Workout = mongoose.model("Workout", workoutSchema);
 
-module.exports = workout;
+module.exports = Workout;
