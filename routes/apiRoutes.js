@@ -1,7 +1,7 @@
 const db = require("../models");
 
 module.exports = function(app) {
-    app.get("/api/Workout", (req, res) => {
+    app.get("/api/workout", (req, res) => {
         db.Workout.find({}).sort({ _id: -1 }).limit(10)
             .populate("exercise")
             .then(dbWorkout => {
@@ -12,9 +12,9 @@ module.exports = function(app) {
             });
     });
 
-    app.put("/api/Workout/:id", (req, res) => {
+    app.put("/api/workout/:id", (req, res) => {
         if (req.body.type === "cardio") {
-            db.cardio.create(req.body)
+            db.Cardio.create(req.body)
                 .then(({ _id }) => db.Workout.findOneAndUpdate({}, { $push: { exercise: _id } }, { new: true }))
                 .then(dbWorkout => {
                     res.json(dbWorkout);
@@ -23,7 +23,7 @@ module.exports = function(app) {
                     res.json(err);
                 });
         } else if (req.body.type === "resistance") {
-            db.resistance.create(req.body)
+            db.Resistance.create(req.body)
                 .then(({ _id }) => db.Workout.findOneAndUpdate({}, { $push: { exercise: _id } }, { new: true }))
                 .then(dbWorkout => {
                     res.json(dbWorkout);
@@ -36,7 +36,7 @@ module.exports = function(app) {
         };
     });
 
-    app.post("/api/Workout", (req, res) => {
+    app.post("/api/workout", (req, res) => {
         db.Workout.create(req.body)
             .then(dbWorkout => {
                 res.json(dbWorkout);
